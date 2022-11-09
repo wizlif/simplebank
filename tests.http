@@ -1,0 +1,29 @@
+POST http://0.0.0.0:5000/transfers
+Content-Type: application/json
+
+{
+    "from_account_id": 2,
+    "to_account_id": 2,
+    "amount": 10000,
+    "currency": "UGX"
+}
+
+### Create account
+POST http://0.0.0.0:5000/accounts
+Content-Type: application/json
+
+{
+    "owner": "iqajtzbxzdwwnvpajhjsnqoonm",
+    "currency": "USD"
+}
+
+### Create user
+POST http://0.0.0.0:5000/users
+Content-Type: application/json
+
+{
+ "username": "wiz2",
+ "password":"secret",
+ "full_name": "Wizlif",
+ "email":"wiz2@gmail.com"
+}
