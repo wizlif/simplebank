@@ -7,12 +7,20 @@ import (
 	db "github.com/wizlif/simplebank/db/sqlc"
 	"github.com/wizlif/simplebank/pb"
 	"github.com/wizlif/simplebank/util"
+	"github.com/wizlif/simplebank/val"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {
+	violations := validateLoginUser(req)
+
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
+	}
+
 	user, err := server.db.GetUser(ctx, req.GetUsername())
 
 	if err != nil {
@@ -72,4 +80,16 @@ func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (
 	}
 
 	return rsp, nil
+}
+
+func validateLoginUser(req *pb.LoginUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := val.ValidateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+
+	if err := val.ValidatePassword(req.GetPassword()); err != nil {
+		violations = append(violations, fieldViolation("password", err))
+	}
+
+	return violations
 }

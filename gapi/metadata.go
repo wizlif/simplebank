@@ -2,7 +2,6 @@ package gapi
 
 import (
 	"context"
-	"log"
 
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
@@ -23,7 +22,7 @@ func (server *Server) extractMetaData(ctx context.Context) *MetaData {
 	mtdt := &MetaData{}
 
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
-		log.Printf("md %v\n", md)
+		// log.Printf("md %v\n", md)
 
 		if userAgents := md.Get(grpcGatewayUserAgentHeader); len(userAgents) > 0 {
 			mtdt.UserAgent = userAgents[0]
