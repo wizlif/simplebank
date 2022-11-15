@@ -18,12 +18,36 @@ Content-Type: application/json
 }
 
 ### Create user
-POST http://0.0.0.0:5000/users
+POST http://0.0.0.0:5000/v1/create_user
 Content-Type: application/json
 
 {
- "username": "wiz2",
+ "username": "wiz9",
  "password":"secret",
  "full_name": "Wizlif",
- "email":"wiz2@gmail.com"
+ "email":"wiz9@gmail.com"
+}
+
+### Login account
+POST http://0.0.0.0:5000/users/login
+Content-Type: application/json
+
+{
+    "username": "wiz2",
+    "password": "secret"
+}
+### Login account
+POST http://0.0.0.0:5000/v1/login_user
+Content-Type: application/json
+
+{
+    "username": "wiz2",
+    "password": "secret"
+}
+### Refresh Token
+POST http://0.0.0.0:5000/tokens/renew_access
+Content-Type: application/json
+
+{
+    "refresh_token": "v2.local.KxMEJIJ6M_B1neoXf56iEzLD3efPbU-Z56GiQ62VnTVpBgCTkQqLNiwvSceBD4quqtMPixTHCj6Did8XafwLMiXsxqPaIugcnVjjFCFqLMZXvLk9ZrdyrUaCmhvGx0ruurK3Ofldz0SYG9ycsnxTSBt6HgLhrLgRbPmCQIy1zZsneoiQ3EZNq57N0lpZUUQ_J5X1dHnPeWXxR7R6hU1M9vKddArzwT7U4NFieOpATdgo1EXQgsgvPkUBrqmQYNjqHN2vGu-z.bnVsbA"
 }

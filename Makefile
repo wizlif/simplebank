@@ -39,4 +39,23 @@ server:
 mock:
 	mockgen --build_flags=--mod=mod --destination db/mock/store.go --package mockdb github.com/wizlif/simplebank/db/sqlc Store 
 
-.PHONY: postgres createdb dropdb migratedown migratedown1 migrateup migrateup1 test server mock
+proto_fix:
+	protolint lint -fix proto;
+
+proto:
+	rm -rf pb/*.go
+	rm -rf doc/swagger/*.swagger.json
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+    --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+	--grpc-gateway_out=pb \
+	--grpc-gateway_opt logtostderr=true \
+    --grpc-gateway_opt paths=source_relative \
+	--openapiv2_out=doc/swagger \
+	--openapiv2_opt=logtostderr=true,allow_merge=true,merge_file_name=simplebank \
+    proto/*.proto
+
+evans:
+	evans --host localhost --port 9090 -r repl
+
+
+.PHONY: postgres createdb dropdb migratedown migratedown1 migrateup migrateup1 test server mock proto proto_fix evans
