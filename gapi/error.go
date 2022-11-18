@@ -6,15 +6,15 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func fieldViolation(field string,err error) *errdetails.BadRequest_FieldViolation{
+func fieldViolation(field string, err error) *errdetails.BadRequest_FieldViolation {
 	return &errdetails.BadRequest_FieldViolation{
-		Field: field,
+		Field:       field,
 		Description: err.Error(),
 	}
 }
 
 func invalidArgumentError(violations []*errdetails.BadRequest_FieldViolation) error {
-	badRequest := &errdetails.BadRequest{FieldViolations:violations}
+	badRequest := &errdetails.BadRequest{FieldViolations: violations}
 	statusInvalid := status.New(codes.InvalidArgument, "invalid parameters")
 
 	statusDetails, err := statusInvalid.WithDetails(badRequest)
@@ -23,4 +23,8 @@ func invalidArgumentError(violations []*errdetails.BadRequest_FieldViolation) er
 	}
 
 	return statusDetails.Err()
+}
+
+func unauthenticatedError(err error) error {
+	return status.Errorf(codes.Unauthenticated, "unauthorized: %s", err)
 }

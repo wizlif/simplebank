@@ -8,6 +8,7 @@ import (
 
 // All configurations of file
 type Config struct {
+	Environment             string        `mapstructure:"ENVIRONMENT"`
 	DbDriver             string        `mapstructure:"DB_DRIVER"`
 	DbSource             string        `mapstructure:"DB_SOURCE"`
 	HTTPServerAddress    string        `mapstructure:"HTTP_SERVER_ADDRESS"`
