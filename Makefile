@@ -59,5 +59,7 @@ proto:
 evans:
 	evans --host localhost --port 9090 -r repl
 
+key: ## Generate assymeric key
+	openssl rand -hex 64 | head -c 32
 
-.PHONY: postgres createdb dropdb migratedown migratedown1 migrateup migrateup1 test server mock proto proto_fix evans
+.PHONY: postgres createdb dropdb migratedown migratedown1 migrateup migrateup1 test server mock proto proto_fix evans key
